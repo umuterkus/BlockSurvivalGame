@@ -37,13 +37,22 @@ namespace BlockSurvive.Modules.LevelSystem
         {
             _totalXP += signal.XPValue;
 
+            int _oldLevel = _currentLevel;
 
-            if (_totalXP >= _xpToNextLevel)
+            while (_totalXP >= _xpToNextLevel)
             {
                 _totalXP -= _xpToNextLevel;
                 _currentLevel++;
                 _xpToNextLevel = _levelCalculator.XPToNextLevel(_currentLevel);
             }
+            
+            int _levelGained = _currentLevel - _oldLevel;
+
+            if (_levelGained > 0)
+            {
+                _signalBus.Fire(new LevelUpSignal { LevelsGained = _levelGained});
+            }
+
             _signalBus.Fire(new XPChangedSignal { CurrentXP = _totalXP, XPToNextLevel = _xpToNextLevel, CurrentLevel = _currentLevel });
         }
 

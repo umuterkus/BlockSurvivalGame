@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GreenEnemy
   m_EditorClassIdentifier: 
   enemySprite: {fileID: 21300000, guid: 863ee1952b4e1184abd89e033171a238, type: 3}
-  moveSpeed: 5
+  moveSpeed: 3
   maxHealth: 1
   damage: 10
   attackCooldown: 1

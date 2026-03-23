@@ -9,14 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecd82ce704e9148428d5a1a5715ae05b, type: 3}
-  m_Name: RedEnemy
+  m_Script: {fileID: 11500000, guid: f3432b88138521149902c938ec5b70b5, type: 3}
+  m_Name: Garlic
   m_EditorClassIdentifier: 
-  enemySprite: {fileID: 21300000, guid: 3b800532711e70841ae281b3ef329628, type: 3}
-  moveSpeed: 3
-  maxHealth: 1
-  damage: 10
-  attackCooldown: 1
-  spawnRadius: 10
-  spawnInterval: 1
-  xpAmount: 15
+  weaponType: 2
+  weaponName: Garlic
+  damage: 25
+  cooldown: 1
+  radius: 6

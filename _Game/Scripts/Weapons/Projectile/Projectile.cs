@@ -8,6 +8,7 @@ namespace BlockSurvive.Weapons
 {
     public class Projectile : MonoBehaviour
     {
+        [SerializeField] private SpriteRenderer _spriteRenderer;
 
         private Vector2 _direction;
         private float _speed;
@@ -25,11 +26,12 @@ namespace BlockSurvive.Weapons
             }
         }
 
-        public void Initialize(Vector2 direction, float speed, int damage)
+        public void Initialize(Sprite sprite, Vector2 direction, float speed, int damage)
         {
             _direction = direction;
             _speed = speed;
             _damage = damage;
+            _spriteRenderer.sprite = sprite;
         }
         private void Update()
         {

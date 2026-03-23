@@ -28,7 +28,7 @@ namespace BlockSurvive.Handlers
             _signalBus.Unsubscribe<EnemyDeathSignal>(OnEnemyDeath);
         }
 
-        public void OnEnemyDeath(EnemyDeathSignal signal)
+        private void OnEnemyDeath(EnemyDeathSignal signal)
         {
             XPCrystal crystal = _pool.Spawn();
             crystal.transform.position = signal.Position;

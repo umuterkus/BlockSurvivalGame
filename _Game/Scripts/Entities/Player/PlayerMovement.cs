@@ -38,6 +38,11 @@ namespace BlockSurvive.Entities.Player
             Vector2 targetPosition = _rigidbody.position + movementInput * (_moveSpeed * Time.fixedDeltaTime);
 
             _rigidbody.MovePosition(targetPosition);
+            if (movementInput.sqrMagnitude > 0.01f)
+            {
+                float angle = Mathf.Atan2(movementInput.y, movementInput.x) * Mathf.Rad2Deg;
+                _rigidbody.SetRotation(angle); 
+            }
         }
     }
 }

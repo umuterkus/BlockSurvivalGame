@@ -16,27 +16,29 @@ using Zenject;
 
 namespace BlockSurvive.Core.Installers
 {
-    
     public class GameInstaller : MonoInstaller
     {
         [SerializeField] private GameObject enemyPrefab;
         [SerializeField] private GameObject projectilePrefab;
         [SerializeField] private GameObject xpCrystalPrefab;
+        [SerializeField] private WeaponDatabase _weaponDatabase;
+
         public override void InstallBindings()
         {
             SignalBusInstaller.Install(Container);
             BindInputSystem();
             BindEnemySystem();
-            BindPlayerPosition();
+            BindPlayerSystem();
             BindWeaponSystem();
-            BindXPSystem();
+            BindLevelSystem();
         }
 
-        private void BindPlayerPosition()
+        private void BindPlayerSystem()
         {
             Container.Bind<ITarget>().To<PlayerTarget>().FromComponentInHierarchy().AsSingle();
             Container.Bind<PlayerHealth>().FromComponentInHierarchy().AsSingle();
             Container.Bind<IDamageable>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<PlayerStats>().AsSingle();
         }
 
         private void BindInputSystem()
@@ -53,14 +55,18 @@ namespace BlockSurvive.Core.Installers
                 .FromComponentInNewPrefab(projectilePrefab)
                 .UnderTransformGroup("ProjectilePool");
 
-            Container.BindInterfacesTo<PlasmaGun>().AsSingle();
+            Container.BindInstance(_weaponDatabase);
+            Container.Bind<WeaponFactory>().AsSingle();
         }
 
-        private void BindXPSystem()
+        private void BindLevelSystem()
         {
             Container.DeclareSignal<EnemyDeathSignal>();
             Container.DeclareSignal<XPCollectedSignal>();
             Container.DeclareSignal<XPChangedSignal>();
+            Container.DeclareSignal<LevelUpSignal>();
+            Container.DeclareSignal<ShowUpgradeScreenSignal>();
+            Container.DeclareSignal<UpgradeSelectedSignal>();
 
             Container.BindMemoryPool<XPCrystal, XPCrystal.Pool>()
                 .WithInitialSize(25)
@@ -70,25 +76,18 @@ namespace BlockSurvive.Core.Installers
             Container.BindInterfacesTo<XPDropHandler>().AsSingle();
             Container.BindInterfacesTo<QuadraticLevelCalculator>().AsSingle();
             Container.BindInterfacesTo<PlayerProgressManager>().AsSingle();
+            Container.BindInterfacesTo<LevelProgressQueue>().AsSingle();
         }
-        private void BindEnemySystem() 
+
+        private void BindEnemySystem()
         {
             Container.BindMemoryPool<EnemyController, EnemyController.Pool>()
-                .WithInitialSize(15) 
+                .WithInitialSize(15)
                 .FromComponentInNewPrefab(enemyPrefab)
                 .UnderTransformGroup("EnemyPool");
 
             Container.BindInterfacesTo<EnemySpawner>().AsSingle();
-
             Container.Bind<EnemyRegistry>().AsSingle();
-
         }
-
-
-
-
-
-
-
     }
 }
